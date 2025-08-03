@@ -3,7 +3,6 @@ import serial
 import sys
 
 # Configure your serial port
-# SERIAL_PORT = "COM15"  # Replace with your port (e.g., /dev/ttyUSB0 on Linux)
 SERIAL_PORT = sys.argv[1] if len(sys.argv) > 1 else "COM15"  # Default to COM15 if no argument is provided
 BAUD_RATE = 115200 ## You don't need to change this
 

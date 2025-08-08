@@ -252,10 +252,11 @@ class Ghost(Player):
     # Change the speed of the ghost
     def changespeed(self,list,ghost,turn,steps,l):
       try:
+        speedlimit = 0.75
         z=list[turn][2]
         if steps < z:
-          self.change_x=list[turn][0] * 0.75
-          self.change_y=list[turn][1] * 0.75
+          self.change_x=list[turn][0] * speedlimit
+          self.change_y=list[turn][1] * speedlimit
           steps+=1
         else:
           if turn < l:
@@ -264,8 +265,8 @@ class Ghost(Player):
             turn = 2
           else:
             turn = 0
-          self.change_x=list[turn][0] * 0.75
-          self.change_y=list[turn][1] * 0.75
+          self.change_x=list[turn][0] * speedlimit
+          self.change_y=list[turn][1] * speedlimit
           steps = 0
         return [turn,steps]
       except IndexError:

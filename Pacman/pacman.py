@@ -8,7 +8,7 @@ import sys
 import threading
 
 # Configure your serial port
-SERIAL_PORT = sys.argv[1] if len(sys.argv) > 1 else "COM21"  # Default to COM15 if no argument is provided
+SERIAL_PORT = sys.argv[1] if len(sys.argv) > 1 else "COM18"  # Default to COM15 if no argument is provided
 BAUD_RATE = 115200 ## You don't need to change this
 speedlimit = 0.75
   
@@ -604,13 +604,32 @@ def startGame():
         clock.tick(10)
 
 def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate):
+  # Play trump_fired.mp3 when game is lost
+  sound_playing = False
+  if "Thesis rejected" in message:
+      try:
+          pygame.mixer.music.stop()  # Stop background music
+          trump_sound = pygame.mixer.Sound('Pacman/sound/turmp_fired_out_short.mp3')
+          trump_sound.play()
+          sound_playing = True
+          print("Playing trump_fired.mp3")
+      except pygame.error as e:
+          print(f"Could not load trump_fired.mp3: {e}")
+          try:
+              # Try alternative path
+              trump_sound = pygame.mixer.Sound('trump_fired.mp3')
+              trump_sound.play()
+              sound_playing = True
+              print("Playing trump_fired.mp3 from alternative path")
+          except:
+              print("trump_fired.mp3 not found in any location")
+
   # Load JD Vance image for game over screen
   jd_image = None
   image_loaded = False
   try:
       jd_image = pygame.image.load('Pacman/images/youre_fired.jpg')
       jd_image = pygame.transform.scale(jd_image, (150, 150))  # Scale to appropriate size
-      print("JD Vance image loaded successfully")
       image_loaded = True
   except pygame.error as e:
       print(f"Could not load JD Vance image: {e}")
@@ -634,6 +653,12 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
           if event.key == pygame.K_ESCAPE:
             pygame.quit()
           if event.key == pygame.K_RETURN:
+            # Add delay if sound was playing to let it finish
+            if sound_playing:
+                pygame.time.wait(4000)  # Wait 4 seconds for sound to finish
+            # Restart background music when starting new game
+            pygame.mixer.music.load('Pacman/pacman.mp3')
+            pygame.mixer.music.play(-1, 0.0)
             del all_sprites_list
             del block_list
             del monsta_list

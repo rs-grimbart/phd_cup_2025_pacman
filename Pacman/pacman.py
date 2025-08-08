@@ -20,6 +20,12 @@ red = (255,0,0)
 purple = (255,0,255)
 yellow   = ( 255, 255,   0)
 
+# Pellet (coin) appearance configuration
+# Swap this path to any image you prefer for pellets.
+PELLET_IMAGE_PATH = 'Pacman/images/journal_yellow.png'
+# Increase size to make visual difference obvious
+PELLET_SIZE = 16
+
 # Shared direction variables
 gesture_dx = 0
 gesture_dy = 0
@@ -152,16 +158,20 @@ class Block(pygame.sprite.Sprite):
      
     # Constructor. Pass in the color of the block, 
     # and its x and y position
-    def __init__(self, color, width, height):
+    def __init__(self, color, width, height, image_path=None):
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self) 
  
-        # Create an image of the block, and fill it with a color.
-        # This could also be an image loaded from the disk.
-        self.image = pygame.Surface([width, height])
-        self.image.fill(white)
-        self.image.set_colorkey(white)
-        pygame.draw.ellipse(self.image,color,[0,0,width,height])
+        # Create an image of the block, or load from disk if provided.
+        if image_path:
+            loaded = pygame.image.load(image_path).convert_alpha()
+            # Scale to requested size to match grid placement
+            self.image = pygame.transform.smoothscale(loaded, (width, height))
+        else:
+            self.image = pygame.Surface([width, height])
+            self.image.fill(white)
+            self.image.set_colorkey(white)
+            pygame.draw.ellipse(self.image, color, [0, 0, width, height])
  
         # Fetch the rectangle object that has the dimensions of the image
         # image.
@@ -454,23 +464,23 @@ def startGame():
 
 
     # Create the player paddle object
-    Pacman = Player( w, p_h, "images/Trollman.png" )
+    Pacman = Player( w, p_h, "images/doc.png" )
     all_sprites_list.add(Pacman)
     pacman_collide.add(Pacman)
    
-    Blinky=Ghost( w, b_h, "images/Blinky.png" )
+    Blinky=Ghost( w, b_h, "images/Lupe_blue.png" )
     monsta_list.add(Blinky)
     all_sprites_list.add(Blinky)
 
-    Pinky=Ghost( w, m_h, "images/Pinky.png" )
+    Pinky=Ghost( w, m_h, "images/Lupe_red.png" )
     monsta_list.add(Pinky)
     all_sprites_list.add(Pinky)
    
-    Inky=Ghost( i_w, m_h, "images/Inky.png" )
+    Inky=Ghost( i_w, m_h, "images/Lupe_yellow.png" )
     monsta_list.add(Inky)
     all_sprites_list.add(Inky)
    
-    Clyde=Ghost( c_w, m_h, "images/Clyde.png" )
+    Clyde=Ghost( c_w, m_h, "images/Lupe_purple.png" )
     monsta_list.add(Clyde)
     all_sprites_list.add(Clyde)
 
@@ -480,7 +490,7 @@ def startGame():
             if (row == 7 or row == 8) and (column == 8 or column == 9 or column == 10):
                 continue
             else:
-              block = Block(yellow, 4, 4)
+              block = Block(yellow, PELLET_SIZE, PELLET_SIZE, image_path=PELLET_IMAGE_PATH)
 
               # Set a random location for the block
               block.rect.x = (30*column+6)+26

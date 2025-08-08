@@ -464,7 +464,7 @@ def startGame():
 
 
     # Create the player paddle object
-    Pacman = Player( w, p_h, "images/doc.png" )
+    Pacman = Player( w, p_h, "images/doc_inv.png" )
     all_sprites_list.add(Pacman)
     pacman_collide.add(Pacman)
    
@@ -586,7 +586,7 @@ def startGame():
         all_sprites_list.draw(screen)
         monsta_list.draw(screen)
 
-        text=font.render("Score: "+str(score)+"/"+str(bll), True, red)
+        text=font.render("Pages written: "+str(score)+"/"+str(bll), True, red)
         screen.blit(text, [10, 10])
 
         if score == bll:
@@ -595,7 +595,7 @@ def startGame():
         monsta_hit_list = pygame.sprite.spritecollide(Pacman, monsta_list, False)
 
         if monsta_hit_list:
-          doNext("Paper rejected",210,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
+          doNext("Thesis rejected",210,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
 
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
         
@@ -668,7 +668,7 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
 
       text2=font.render("To try again please", True, white)
       screen.blit(text2, [185, 303])
-      text3=font.render("Restart your PhD", True, white)
+      text3=font.render("restart your PhD", True, white)
       screen.blit(text3, [198, 333])
 
       # Display JD Vance image if game over (paper rejected) - draw it on top of everything

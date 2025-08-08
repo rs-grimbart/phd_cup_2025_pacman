@@ -650,7 +650,7 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
       monsta_list.draw(screen)
 
       # Add black overlay with 50% transparency when you lose
-      if "Paper rejected" in message:
+      if "Thesis rejected" in message:
           dark_overlay = pygame.Surface((606, 606))
           dark_overlay.set_alpha(128)  # 50% transparency (128 out of 255)
           dark_overlay.fill((0, 0, 0))  # Black overlay
@@ -671,8 +671,8 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
       text3=font.render("restart your PhD", True, white)
       screen.blit(text3, [198, 333])
 
-      # Display JD Vance image if game over (paper rejected) - draw it on top of everything
-      if "Paper rejected" in message:
+      # Display JD Vance image if game over (thesis rejected) - draw it on top of everything
+      if "Thesis rejected" in message:
           if jd_image and image_loaded:
               screen.blit(jd_image, (230, 50))  # Position above the message
           else:

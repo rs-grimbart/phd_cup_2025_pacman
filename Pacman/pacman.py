@@ -10,7 +10,7 @@ import threading
 # Configure your serial port
 SERIAL_PORT = sys.argv[1] if len(sys.argv) > 1 else "COM21"  # Default to COM15 if no argument is provided
 BAUD_RATE = 115200 ## You don't need to change this
-
+speedlimit = 0.75
   
 black = (0,0,0)
 white = (255,255,255)
@@ -252,7 +252,6 @@ class Ghost(Player):
     # Change the speed of the ghost
     def changespeed(self,list,ghost,turn,steps,l):
       try:
-        speedlimit = 0.75
         z=list[turn][2]
         if steps < z:
           self.change_x=list[turn][0] * speedlimit

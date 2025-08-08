@@ -375,6 +375,8 @@ c_w = 303+(32-16) #Clyde width
 
 def startGame():
 
+  pacman_speed = 15  # Change this value to control Pacman's speed
+
   all_sprites_list = pygame.sprite.RenderPlain()
 
   block_list = pygame.sprite.RenderPlain()
@@ -453,6 +455,9 @@ def startGame():
 
   i = 0
 
+  # Store last direction
+  last_dx, last_dy = 0, 0
+
   while done == False:
       # ALL EVENT PROCESSING SHOULD GO BELOW THIS COMMENT
       for event in pygame.event.get():
@@ -461,26 +466,18 @@ def startGame():
 
           if event.type == pygame.KEYDOWN:
               if event.key == pygame.K_LEFT:
-                  Pacman.changespeed(-30,0)
+                  last_dx, last_dy = -pacman_speed, 0
               if event.key == pygame.K_RIGHT:
-                  Pacman.changespeed(30,0)
+                  last_dx, last_dy = pacman_speed, 0
               if event.key == pygame.K_UP:
-                  Pacman.changespeed(0,-30)
+                  last_dx, last_dy = 0, -pacman_speed
               if event.key == pygame.K_DOWN:
-                  Pacman.changespeed(0,30)
+                  last_dx, last_dy = 0, pacman_speed
 
-          if event.type == pygame.KEYUP:
-              if event.key == pygame.K_LEFT:
-                  Pacman.changespeed(30,0)
-              if event.key == pygame.K_RIGHT:
-                  Pacman.changespeed(-30,0)
-              if event.key == pygame.K_UP:
-                  Pacman.changespeed(0,30)
-              if event.key == pygame.K_DOWN:
-                  Pacman.changespeed(0,-30)
-          
-      # ALL EVENT PROCESSING SHOULD GO ABOVE THIS COMMENT
-   
+      # Pacman keeps moving in last direction
+      Pacman.change_x = last_dx
+      Pacman.change_y = last_dy
+
       # ALL GAME LOGIC SHOULD GO BELOW THIS COMMENT
       Pacman.update(wall_list,gate)
 

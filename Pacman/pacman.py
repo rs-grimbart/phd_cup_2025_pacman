@@ -585,7 +585,7 @@ def startGame():
         monsta_hit_list = pygame.sprite.spritecollide(Pacman, monsta_list, False)
 
         if monsta_hit_list:
-          doNext("Game Over",235,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
+          doNext("Paper rejected",210,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
 
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
         
@@ -621,10 +621,10 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
       text1=font.render(message, True, white)
       screen.blit(text1, [left, 233])
 
-      text2=font.render("To play again, press ENTER.", True, white)
-      screen.blit(text2, [135, 303])
-      text3=font.render("To quit, press ESCAPE.", True, white)
-      screen.blit(text3, [165, 333])
+      text2=font.render("To try again please", True, white)
+      screen.blit(text2, [185, 303])
+      text3=font.render("Restart your PhD", True, white)
+      screen.blit(text3, [198, 333])
 
       pygame.display.flip()
 

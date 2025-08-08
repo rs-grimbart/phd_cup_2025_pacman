@@ -604,6 +604,27 @@ def startGame():
         clock.tick(10)
 
 def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate):
+  # Load JD Vance image for game over screen
+  jd_image = None
+  image_loaded = False
+  try:
+      jd_image = pygame.image.load('Pacman/images/youre_fired.jpg')
+      jd_image = pygame.transform.scale(jd_image, (150, 150))  # Scale to appropriate size
+      print("JD Vance image loaded successfully")
+      image_loaded = True
+  except pygame.error as e:
+      print(f"Could not load JD Vance image: {e}")
+      try:
+          # Try alternative path
+          jd_image = pygame.image.load('images/Jd_the_vance.png')
+          jd_image = pygame.transform.scale(jd_image, (150, 150))
+          print("JD Vance image loaded from alternative path")
+          image_loaded = True
+      except:
+          print("JD Vance image not found in any location")
+          jd_image = None
+          image_loaded = False
+  
   while True:
       # ALL EVENT PROCESSING SHOULD GO BELOW THIS COMMENT
       for event in pygame.event.get():
@@ -635,6 +656,14 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
       screen.blit(text2, [185, 303])
       text3=font.render("Restart your PhD", True, white)
       screen.blit(text3, [198, 333])
+
+      # Display JD Vance image if game over (paper rejected) - draw it on top of everything
+      if "Paper rejected" in message:
+          if jd_image and image_loaded:
+              screen.blit(jd_image, (230, 50))  # Position above the message
+          else:
+              # Draw a red rectangle as placeholder if image not found
+              pygame.draw.rect(screen, red, (230, 50, 150, 150))
 
       pygame.display.flip()
 

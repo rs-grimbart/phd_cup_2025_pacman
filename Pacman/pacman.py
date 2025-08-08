@@ -642,9 +642,23 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
             del gate
             startGame()
 
+      # Draw the game state first (so it's visible behind the overlay)
+      screen.fill(black)
+      wall_list.draw(screen)
+      gate.draw(screen)
+      all_sprites_list.draw(screen)
+      monsta_list.draw(screen)
+
+      # Add black overlay with 50% transparency when you lose
+      if "Paper rejected" in message:
+          dark_overlay = pygame.Surface((606, 606))
+          dark_overlay.set_alpha(128)  # 50% transparency (128 out of 255)
+          dark_overlay.fill((0, 0, 0))  # Black overlay
+          screen.blit(dark_overlay, (0, 0))
+
       #Grey background
       w = pygame.Surface((400,200))  # the size of your rect
-      w.set_alpha(10)                # alpha level
+      w.set_alpha(180)                # alpha level (increased from 10 to 180)
       w.fill((128,128,128))           # this fills the entire surface
       screen.blit(w, (100,200))    # (0,0) are the top-left coordinates
 

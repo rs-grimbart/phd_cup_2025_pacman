@@ -10,7 +10,7 @@ import threading
 # Configure your serial port
 SERIAL_PORT = sys.argv[1] if len(sys.argv) > 1 else "COM21"  # Default to COM15 if no argument is provided
 BAUD_RATE = 115200 ## You don't need to change this
-
+speedlimit = 0.75
   
 black = (0,0,0)
 white = (255,255,255)
@@ -254,8 +254,8 @@ class Ghost(Player):
       try:
         z=list[turn][2]
         if steps < z:
-          self.change_x=list[turn][0]
-          self.change_y=list[turn][1]
+          self.change_x=list[turn][0] * speedlimit
+          self.change_y=list[turn][1] * speedlimit
           steps+=1
         else:
           if turn < l:
@@ -264,8 +264,8 @@ class Ghost(Player):
             turn = 2
           else:
             turn = 0
-          self.change_x=list[turn][0]
-          self.change_y=list[turn][1]
+          self.change_x=list[turn][0] * speedlimit
+          self.change_y=list[turn][1] * speedlimit
           steps = 0
         return [turn,steps]
       except IndexError:
